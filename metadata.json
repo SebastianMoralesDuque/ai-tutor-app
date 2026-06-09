@@ -1,0 +1,6 @@
+{
+  "name": "Learning Tutor",
+  "description": "A personal study tutor that helps you learn any topic through short daily lessons, quizzes, and progress tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
