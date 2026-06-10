@@ -1,47 +1,36 @@
 package com.example.domain.usecases
 
 import com.example.data.models.SessionProgress
-import java.util.Calendar
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 class GetStreakUseCase {
 
     fun execute(progressList: List<SessionProgress>): Int {
         if (progressList.isEmpty()) return 0
 
-        // Map timestamps to unique normalized Calendar dates (midnight-aligned)
-        val completedDays = progressList.map { progress ->
-            val cal = Calendar.getInstance()
-            cal.timeInMillis = progress.completedAt
-            normalizeCalendar(cal)
-        }.distinctBy { it.timeInMillis }.sortedByDescending { it.timeInMillis }
+        // Map timestamps to unique LocalDate values (date only)
+        val completedDays = progressList
+            .map { dateFromEpochMillis(it.completedAt) }
+            .distinct()
+            .sortedDescending()
 
-        if (completedDays.isEmpty()) return 0
-
-        val today = Calendar.getInstance()
-        normalizeCalendar(today)
-
-        val yesterday = Calendar.getInstance()
-        yesterday.add(Calendar.DAY_OF_YEAR, -1)
-        normalizeCalendar(yesterday)
-
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
         val mostRecent = completedDays.first()
+
         // If the most recent study was neither today nor yesterday, the streak is 0
-        if (mostRecent.timeInMillis != today.timeInMillis && mostRecent.timeInMillis != yesterday.timeInMillis) {
-            return 0
-        }
+        if (mostRecent != today && mostRecent != yesterday) return 0
 
         var streakCount = 1
         var currentDay = mostRecent
 
         for (i in 1 until completedDays.size) {
-            val expectedPreviousDay = Calendar.getInstance().apply {
-                timeInMillis = currentDay.timeInMillis
-                add(Calendar.DAY_OF_YEAR, -1)
-                normalizeCalendar(this)
-            }
-
+            val expectedPreviousDay = currentDay.minusDays(1)
             val comparisonDay = completedDays[i]
-            if (comparisonDay.timeInMillis == expectedPreviousDay.timeInMillis) {
+            if (comparisonDay == expectedPreviousDay) {
                 streakCount++
                 currentDay = comparisonDay
             } else {
@@ -52,11 +41,6 @@ class GetStreakUseCase {
         return streakCount
     }
 
-    private fun normalizeCalendar(cal: Calendar): Calendar {
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        return cal
-    }
+    private fun dateFromEpochMillis(millis: Long): LocalDate =
+        Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
 }

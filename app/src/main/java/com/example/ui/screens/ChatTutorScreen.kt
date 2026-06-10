@@ -2,7 +2,6 @@ package com.example.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,28 +13,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Block
-import androidx.compose.material.icons.filled.HelpOutline
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,18 +36,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.domain.model.ChatMessage
+import com.example.R
 import com.example.ui.TutorViewModel
+import com.example.ui.components.ChatBubble
+import com.example.ui.components.ChatHeaderCard
+import com.example.ui.components.ChatInputPanel
 
 @Composable
 fun ChatTutorScreen(
@@ -77,6 +64,13 @@ fun ChatTutorScreen(
     LaunchedEffect(chatMessages.size, isChatLoading) {
         if (chatMessages.isNotEmpty()) {
             lazyListState.animateScrollToItem(chatMessages.size - 1)
+        }
+    }
+
+    val sendMessage = {
+        if (textInput.isNotBlank() && !isChatLoading) {
+            viewModel.sendChatMessage(textInput.trim())
+            textInput = ""
         }
     }
 
@@ -111,14 +105,14 @@ fun ChatTutorScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "Tutor Chat Unavailable",
+                            text = stringResource(R.string.tutor_unavailable),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Please set up an active learning topic first to introduce questions or code inquiries with the tutor.",
+                            text = stringResource(R.string.tutor_unavailable_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.outline,
                             textAlign = TextAlign.Center
@@ -130,7 +124,7 @@ fun ChatTutorScreen(
                             modifier = Modifier.height(48.dp)
                         ) {
                             Text(
-                                "Setup Learning Topic",
+                                stringResource(R.string.setup_learning_topic),
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -139,42 +133,9 @@ fun ChatTutorScreen(
             }
         } else {
             Column(modifier = Modifier.fillMaxSize()) {
-                // Header Banner
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.SmartToy,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text(
-                                text = "${currentProfile?.topic} AI Tutor",
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = "Ask questions, review concepts, or request code details.",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.outline
-                            )
-                        }
-                    }
-                }
+                ChatHeaderCard(
+                    topic = currentProfile?.topic ?: ""
+                )
 
                 // Chat Messages LazyColumn
                 LazyColumn(
@@ -217,7 +178,7 @@ fun ChatTutorScreen(
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(
-                                            text = "Tutor is writing...",
+                                            text = stringResource(R.string.tutor_is_writing),
                                             style = MaterialTheme.typography.bodySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
@@ -228,189 +189,14 @@ fun ChatTutorScreen(
                     }
                 }
 
-                // Bottom Input Panel
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        OutlinedTextField(
-                            value = textInput,
-                            onValueChange = { textInput = it },
-                            placeholder = { Text("Ask about ${currentProfile?.topic}...") },
-                            modifier = Modifier
-                                .weight(1f)
-                                .testTag("chat_text_input"),
-                            keyboardOptions = KeyboardOptions(
-                                imeAction = ImeAction.Send
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onSend = {
-                                    if (textInput.isNotBlank() && !isChatLoading) {
-                                        viewModel.sendChatMessage(textInput.trim())
-                                        textInput = ""
-                                    }
-                                }
-                            ),
-                            singleLine = true,
-                            shape = RoundedCornerShape(24.dp)
-                        )
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        IconButton(
-                            onClick = {
-                                if (textInput.isNotBlank() && !isChatLoading) {
-                                    viewModel.sendChatMessage(textInput.trim())
-                                    textInput = ""
-                                }
-                            },
-                            enabled = textInput.isNotBlank() && !isChatLoading,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(RoundedCornerShape(24.dp))
-                                .background(
-                                    if (textInput.isNotBlank() && !isChatLoading) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.surfaceVariant
-                                )
-                                .testTag("chat_send_button")
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.Send,
-                                contentDescription = "Send Message",
-                                tint = if (textInput.isNotBlank() && !isChatLoading) MaterialTheme.colorScheme.onPrimary
-                                else MaterialTheme.colorScheme.outline
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ChatBubble(
-    message: ChatMessage,
-    modifier: Modifier = Modifier
-) {
-    val contentColor = if (message.isUser) {
-        MaterialTheme.colorScheme.onPrimary
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
-
-    val alignment = if (message.isUser) Alignment.End else Alignment.Start
-    val bubbleShape = if (message.isUser) {
-        RoundedCornerShape(
-            topStart = 20.dp,
-            topEnd = 20.dp,
-            bottomStart = 20.dp,
-            bottomEnd = 4.dp
-        )
-    } else {
-        RoundedCornerShape(
-            topStart = 20.dp,
-            topEnd = 20.dp,
-            bottomStart = 4.dp,
-            bottomEnd = 20.dp
-        )
-    }
-
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = alignment
-    ) {
-        Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = if (message.isUser) Arrangement.End else Arrangement.Start,
-            modifier = Modifier.fillMaxWidth(0.95f)
-        ) {
-            if (!message.isUser) {
-                Icon(
-                    imageVector = Icons.Default.SmartToy,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 4.dp, bottom = 4.dp)
-                )
-            }
-
-            val modifierWithBg = if (message.isUser) {
-                Modifier
-                    .clip(bubbleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-            } else {
-                Modifier
-                    .border(1.dp, MaterialTheme.colorScheme.outline, bubbleShape)
-                    .clip(bubbleShape)
-                    .background(MaterialTheme.colorScheme.surface)
-            }
-
-            Box(
-                modifier = modifierWithBg
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .widthIn(max = 280.dp)
-            ) {
-                // Parse bold helper text simple style
-                Text(
-                    text = parseBoldTextStyle(message.message, contentColor),
-                    style = MaterialTheme.typography.bodyMedium,
-                    lineHeight = 20.sp,
-                    color = contentColor
-                )
-            }
-
-            if (message.isUser) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(start = 4.dp, bottom = 4.dp)
+                ChatInputPanel(
+                    textInput = textInput,
+                    onTextChange = { textInput = it },
+                    onSend = sendMessage,
+                    isLoading = isChatLoading,
+                    topicHint = currentProfile?.topic ?: ""
                 )
             }
         }
-    }
-}
-
-/**
- * A basic parser to format bold markdown syntax (**text**) within standard Text composables.
- */
-@Composable
-fun parseBoldTextStyle(input: String, defaultColor: Color) = buildAnnotatedString {
-    val boldToken = "**"
-    var startIndex = 0
-    while (true) {
-        val tokenStart = input.indexOf(boldToken, startIndex)
-        if (tokenStart == -1) {
-            withStyle(style = SpanStyle(color = defaultColor)) {
-                append(input.substring(startIndex))
-            }
-            break
-        }
-        if (tokenStart > startIndex) {
-            withStyle(style = SpanStyle(color = defaultColor)) {
-                append(input.substring(startIndex, tokenStart))
-            }
-        }
-        val tokenEnd = input.indexOf(boldToken, tokenStart + boldToken.length)
-        if (tokenEnd == -1) {
-            withStyle(style = SpanStyle(color = defaultColor)) {
-                append(input.substring(tokenStart))
-            }
-            break
-        }
-        withStyle(style = SpanStyle(fontWeight = FontWeight.Black, color = defaultColor)) {
-            append(input.substring(tokenStart + boldToken.length, tokenEnd))
-        }
-        startIndex = tokenEnd + boldToken.length
     }
 }

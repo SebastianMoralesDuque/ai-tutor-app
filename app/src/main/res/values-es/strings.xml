@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Tutor de Aprendizaje</string>
+
+    <!-- Bottom Navigation -->
+    <string name="tab_study">Estudiar</string>
+    <string name="tab_tutor">Tutor</string>
+    <string name="tab_progress">Progreso</string>
+    <string name="tab_goals">Metas</string>
+
+    <!-- Goal Setup Screen -->
+    <string name="setup_goal_title">Configurá tu Meta de Aprendizaje</string>
+    <string name="refine_goal_title">Ajustá tu Meta de Aprendizaje</string>
+    <string name="goal_subtitle">Decinos qué querés aprender y elegí tu compromiso diario.</string>
+    <string name="topic_of_study">Tema de Estudio</string>
+    <string name="topic_label">Tema que querés dominar</string>
+    <string name="topic_placeholder">ej: Desarrollo Android, Francés…</string>
+    <string name="daily_time">Tiempo Diario</string>
+    <string name="establish_goal">Establecer Meta</string>
+    <string name="save_changes">Guardar Cambios</string>
+    <string name="active_goal">Activo: Estudiando \"%s\" %d min diarios.</string>
+
+    <!-- Daily Session Screen -->
+    <string name="loading_lesson">Preparando tu lección personalizada…</string>
+    <string name="configure_goals">Configurar Metas primero</string>
+    <string name="day_of_5">DÍA %1$d DE %2$d: %3$s</string>
+    <string name="streak_days">Racha: %d días</string>
+    <string name="todays_concept">CONCEPTO DEL DÍA</string>
+    <string name="concept_understanding">ENTENDIENDO EL CONCEPTO</string>
+    <string name="key_ideas">Ideas Clave:</string>
+    <string name="practical_illustration">EJEMPLO PRÁCTICO</string>
+    <string name="interactive_example">Ejemplo Interactivo</string>
+    <string name="daily_assessment">EVALUACIÓN DIARIA</string>
+    <string name="question_of">Pregunta %d de %d</string>
+    <string name="review_explanation">Explicación</string>
+    <string name="submit_quiz">Enviar Evaluación</string>
+    <string name="session_complete">¡Sesión Completada!</string>
+    <string name="score_text">Respondiste %d de %d preguntas correctamente.</string>
+    <string name="next_unlock">Tu progreso se actualizó. ¡El día %d se desbloquea mañana!</string>
+
+    <!-- Chat Tutor Screen -->
+    <string name="tutor_unavailable">Chat del Tutor No Disponible</string>
+    <string name="tutor_unavailable_desc">Primero configurá un tema de aprendizaje activo para hacer preguntas o consultas al tutor.</string>
+    <string name="setup_learning_topic">Configurar Tema</string>
+    <string name="ai_tutor_title">Tutor IA de %s</string>
+    <string name="ai_tutor_subtitle">Hacé preguntas, repasá conceptos o pedí detalles de código.</string>
+    <string name="tutor_is_writing">El tutor está escribiendo…</string>
+    <string name="ask_about">Preguntá sobre %s…</string>
+    <string name="send_message">Enviar Mensaje</string>
+
+    <!-- Progress Screen -->
+    <string name="no_goals_config">No se encontró una meta de estudio.</string>
+    <string name="no_goals_desc">Establecé un tema de interés primero para registrar y revisar tus métricas de progreso.</string>
+    <string name="setup_topic">Configurar Tema</string>
+    <string name="current_track">CURSO ACTUAL</string>
+    <string name="progress_percent">%d%% Completado (%d / %d unidades)</string>
+    <string name="streak_title">Racha</string>
+    <string name="streak_days_label">%d Días</string>
+    <string name="streak_subtitle">Dedicación diaria</string>
+    <string name="finished_title">Completado</string>
+    <string name="sessions_completed">%d sesiones</string>
+    <string name="lessons_completed">Lecciones completadas</string>
+    <string name="review_mistakes">REVISAR ERRORES ANTERIORES</string>
+    <string name="all_clear">¡Todo bien!</string>
+    <string name="all_clear_desc">No cometiste errores, o ya los corregiste todos. ¡Excelente!</string>
+    <string name="mistakes_help">Repasá las respuestas incorrectas de evaluaciones anteriores. Tocá el tacho cuando hayas corregido tu entendimiento.</string>
+    <string name="your_guess">Tu respuesta: %s</string>
+    <string name="correction">Corrección: %s</string>
+    <string name="clear_track">Borrar Curso e Historial</string>
+    <string name="reset_dialog_title">¿Reiniciar Metas y Curso?</string>
+    <string name="reset_dialog_text">Esto borrará permanentemente todas las fechas completadas, rachas, progreso de lecciones y errores. ¿Querés continuar?</string>
+    <string name="confirm_reset">Confirmar Borrado</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- General -->
+    <string name="learning_tutor_logo">Logo de Tutor de Aprendizaje</string>
+    <string name="correct">Correcto</string>
+    <string name="incorrect">Incorrecto</string>
+    <string name="streak_flame">Icono de racha</string>
+    <string name="trophy">Icono de trofeo</string>
+    <string name="clear_mistake">Eliminar Error</string>
+    <string name="no_response">El tutor no respondió.</string>
+    <string name="request_error">Lo siento, tuve un problema al procesar eso: %s</string>
+    <string name="setup_profile_first">Primero configurá tu perfil de aprendizaje para poder asistirte.</string>
+    <string name="session_error">Primero configurá tu meta de aprendizaje.</string>
+    <string name="lesson_load_error">Error al cargar la lección (%d). Intentá de nuevo.</string>
+    <string name="empty_lesson">El servidor devolvió una lección vacía.</string>
+    <string name="user_creation_error">Error al crear usuario (%d).</string>
+    <string name="empty_user_id">ID de usuario vacío en la respuesta.</string>
+    <string name="chat_error">Error del chat (%d). Intentá de nuevo.</string>
+    <string name="network_error">No se pudo contactar al tutor: %s</string>
+    <string name="unknown_error">Error desconocido al cargar la lección.</string>
+    <string name="retry">Reintentar</string>
+</resources>

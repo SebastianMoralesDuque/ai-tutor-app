@@ -1,3 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
     <string name="app_name">Learning Tutor</string>
+
+    <!-- Bottom Navigation -->
+    <string name="tab_study">Study</string>
+    <string name="tab_tutor">Tutor</string>
+    <string name="tab_progress">Progress</string>
+    <string name="tab_goals">Goals</string>
+
+    <!-- Goal Setup Screen -->
+    <string name="setup_goal_title">Setup Your Learning Goal</string>
+    <string name="refine_goal_title">Refine Your Learning Goal</string>
+    <string name="goal_subtitle">Tell us what you want to master and choose your daily commitment.</string>
+    <string name="topic_of_study">Topic of Study</string>
+    <string name="topic_label">Topic you want to master</string>
+    <string name="topic_placeholder">e.g. Android development, French…</string>
+    <string name="daily_time">Daily Time Commitment</string>
+    <string name="establish_goal">Establish Goal</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="active_goal">Active: Studying \"%s\" for %d mins daily.</string>
+
+    <!-- Daily Session Screen -->
+    <string name="loading_lesson">Curating your tailored daily lesson…</string>
+    <string name="configure_goals">Configure Goals first</string>
+    <string name="day_of_5">DAY %1$d OF %2$d: %3$s</string>
+    <string name="streak_days">Streak: %d days</string>
+    <string name="todays_concept">TODAY\'S CONCEPT</string>
+    <string name="concept_understanding">CONCEPT UNDERSTANDING</string>
+    <string name="key_ideas">Key Ideas:</string>
+    <string name="practical_illustration">PRACTICAL ILLUSTRATION</string>
+    <string name="interactive_example">Interactive Example</string>
+    <string name="daily_assessment">DAILY ASSESSMENT</string>
+    <string name="question_of">Question %d of %d</string>
+    <string name="review_explanation">Review Explanation</string>
+    <string name="submit_quiz">Submit Quiz Session</string>
+    <string name="session_complete">Session Complete!</string>
+    <string name="score_text">You scored %d out of %d questions correctly.</string>
+    <string name="next_unlock">Your daily completions have updated. Day %d will unlock tomorrow!</string>
+
+    <!-- Chat Tutor Screen -->
+    <string name="tutor_unavailable">Tutor Chat Unavailable</string>
+    <string name="tutor_unavailable_desc">Please set up an active learning topic first to introduce questions or code inquiries with the tutor.</string>
+    <string name="setup_learning_topic">Setup Learning Topic</string>
+    <string name="ai_tutor_title">%s AI Tutor</string>
+    <string name="ai_tutor_subtitle">Ask questions, review concepts, or request code details.</string>
+    <string name="tutor_is_writing">Tutor is writing…</string>
+    <string name="ask_about">Ask about %s…</string>
+    <string name="send_message">Send Message</string>
+
+    <!-- Progress Screen -->
+    <string name="no_goals_config">No study goals config found.</string>
+    <string name="no_goals_desc">Establish a topic of interest first to record and review your custom tracking metrics.</string>
+    <string name="setup_topic">Setup Learning Topic</string>
+    <string name="current_track">CURRENT TRACK</string>
+    <string name="progress_percent">%d%% Complete (%d / %d units)</string>
+    <string name="streak_title">Streak</string>
+    <string name="streak_days_label">%d Days</string>
+    <string name="streak_subtitle">Daily devotion</string>
+    <string name="finished_title">Finished</string>
+    <string name="sessions_completed">%d sessions</string>
+    <string name="lessons_completed">Lessons completed</string>
+    <string name="review_mistakes">REVIEW PAST MISTAKES</string>
+    <string name="all_clear">All clear!</string>
+    <string name="all_clear_desc">You haven\'t made any mistakes, or you\'ve successfully cleared them all. Outstanding!</string>
+    <string name="mistakes_help">Study incorrect answers from past quizzes. Tap the trash can icon once you have corrected your understanding.</string>
+    <string name="your_guess">Your Guess: %s</string>
+    <string name="correction">Correction: %s</string>
+    <string name="clear_track">Clear Track and Progression History</string>
+    <string name="reset_dialog_title">Restart Goals and Tracks?</string>
+    <string name="reset_dialog_text">This will permanently delete all completed dates, streak records, matching lesson progress, and collected review mistakes. Do you wish to proceed?</string>
+    <string name="confirm_reset">Confirm Reset</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- General -->
+    <string name="learning_tutor_logo">Learning Tutor Logo</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="streak_flame">Streak Flame Logo</string>
+    <string name="trophy">Trophy Logo</string>
+    <string name="clear_mistake">Clear Mistake Review</string>
+    <string name="no_response">No response from the tutor.</string>
+    <string name="request_error">Sorry, I had trouble processing that request: %s</string>
+    <string name="setup_profile_first">Please set up your learning profile first so I can assist you.</string>
+    <string name="session_error">Please set your learning goal first.</string>
+    <string name="lesson_load_error">Failed to load lesson (%d). Please try again.</string>
+    <string name="empty_lesson">Empty lesson response from server.</string>
+    <string name="user_creation_error">Failed to create user (%d).</string>
+    <string name="empty_user_id">Empty user ID in response.</string>
+    <string name="chat_error">Chat service error (%d). Please try again.</string>
+    <string name="network_error">Sorry, I couldn\'t reach the tutor: %s</string>
+    <string name="unknown_error">Unknown error loading lesson.</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -16,7 +16,12 @@ class TutorViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TutorViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TutorViewModel(repository, getLessonUseCase, getStreakUseCase, getChatTutorReplyUseCase) as T
+            return TutorViewModel(
+                repository,
+                getLessonUseCase,
+                getStreakUseCase,
+                getChatTutorReplyUseCase
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

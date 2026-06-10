@@ -1,12 +1,16 @@
 package com.example.data.repository
 
+import android.content.SharedPreferences
 import com.example.data.database.AppDatabase
 import com.example.data.models.UserProfile
 import com.example.data.models.SessionProgress
 import com.example.data.models.Mistake
 import kotlinx.coroutines.flow.Flow
 
-class TutorRepository(private val database: AppDatabase) {
+class TutorRepository(
+    private val database: AppDatabase,
+    private val prefs: SharedPreferences
+) {
 
     private val userProfileDao = database.userProfileDao()
     private val sessionProgressDao = database.sessionProgressDao()
@@ -42,5 +46,13 @@ class TutorRepository(private val database: AppDatabase) {
 
     suspend fun clearAllMistakes() {
         mistakeDao.clearAllMistakes()
+    }
+
+    fun saveUserId(id: String) {
+        prefs.edit().putString("user_id", id).apply()
+    }
+
+    fun getUserId(): String? {
+        return prefs.getString("user_id", null)
     }
 }

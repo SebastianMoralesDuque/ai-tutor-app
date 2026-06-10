@@ -1,5 +1,6 @@
 package com.example
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,9 +25,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.room.Room
+import com.example.api.RetrofitClient
 import com.example.data.database.AppDatabase
-import com.example.data.repository.MockLearningService
+import com.example.data.repository.RemoteLearningService
 import com.example.data.repository.TutorRepository
 import com.example.domain.usecases.GetChatTutorReplyUseCase
 import com.example.domain.usecases.GetLessonUseCase
@@ -41,6 +44,10 @@ import com.example.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
 
+    private val prefs by lazy {
+        getSharedPreferences("tutor_prefs", Context.MODE_PRIVATE)
+    }
+
     private val database by lazy {
         Room.databaseBuilder(
             applicationContext,
@@ -49,12 +56,18 @@ class MainActivity : ComponentActivity() {
         ).fallbackToDestructiveMigration().build()
     }
 
-    private val repository by lazy { TutorRepository(database) }
-    private val learningService by lazy { MockLearningService() }
+    private val repository by lazy { TutorRepository(database, prefs) }
 
-    private val getLessonUseCase by lazy { GetLessonUseCase(learningService) }
+    private val remoteService by lazy {
+        RemoteLearningService(
+            api = RetrofitClient.api,
+            userIdProvider = { repository.getUserId() }
+        )
+    }
+
+    private val getLessonUseCase by lazy { GetLessonUseCase(remoteService) }
     private val getStreakUseCase by lazy { GetStreakUseCase() }
-    private val getChatTutorReplyUseCase by lazy { GetChatTutorReplyUseCase(learningService) }
+    private val getChatTutorReplyUseCase by lazy { GetChatTutorReplyUseCase(remoteService) }
 
     private val viewModel: TutorViewModel by viewModels {
         TutorViewModelFactory(
@@ -92,26 +105,26 @@ fun TutorAppMainView(viewModel: TutorViewModel) {
                 NavigationBarItem(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
-                    icon = { Icon(Icons.Default.School, contentDescription = "Study") },
-                    label = { Text("Study") }
+                    icon = { Icon(Icons.Default.School, contentDescription = stringResource(R.string.tab_study)) },
+                    label = { Text(stringResource(R.string.tab_study)) }
                 )
                 NavigationBarItem(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    icon = { Icon(Icons.Default.Chat, contentDescription = "Tutor") },
-                    label = { Text("Tutor") }
+                    icon = { Icon(Icons.Default.Chat, contentDescription = stringResource(R.string.tab_tutor)) },
+                    label = { Text(stringResource(R.string.tab_tutor)) }
                 )
                 NavigationBarItem(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
-                    icon = { Icon(Icons.Default.Timeline, contentDescription = "Progress") },
-                    label = { Text("Progress") }
+                    icon = { Icon(Icons.Default.Timeline, contentDescription = stringResource(R.string.tab_progress)) },
+                    label = { Text(stringResource(R.string.tab_progress)) }
                 )
                 NavigationBarItem(
                     selected = selectedTab == 3,
                     onClick = { selectedTab = 3 },
-                    icon = { Icon(Icons.Default.Schedule, contentDescription = "Goals") },
-                    label = { Text("Goals") }
+                    icon = { Icon(Icons.Default.Schedule, contentDescription = stringResource(R.string.tab_goals)) },
+                    label = { Text(stringResource(R.string.tab_goals)) }
                 )
             }
         }
@@ -120,7 +133,9 @@ fun TutorAppMainView(viewModel: TutorViewModel) {
             0 -> DailySessionScreen(
                 viewModel = viewModel,
                 modifier = Modifier.padding(innerPadding),
-                onNavigateToSetup = { selectedTab = 3 }
+                onNavigateToSetup = { selectedTab = 3 },
+                onNavigateToTutor = { selectedTab = 1 },
+                onNavigateToProgress = { selectedTab = 2 }
             )
             1 -> ChatTutorScreen(
                 viewModel = viewModel,
